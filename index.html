@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Text to Discord Webhook</title>
+</head>
+<body>
+    <script>
+        // Discord Webhook URL
+        const webhookURL = 'https://discord.com/api/webhooks/1246354405620584510/SnMDIFW6mUTXoMXiYQrZZA3CyeQNAlYY4iAQwolPlGRBz3tNGHYGYQOwFK6o_Goqb7ge';
+
+        // Function to generate a random number with approximately 00 at the end
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 1000) * 10;
+        }
+
+        // Function to send a message to Discord webhook
+        function sendMessageToWebhook(randomNumber) {
+            // Create the embed object
+            const embed = {
+                title: "換金LOG 実績",
+                description: "85% make by L1ry",
+                fields: [
+                    {
+                        name: "換金額",
+                        value: randomNumber.toString()
+                    },
+                    {
+                        name: "送金額",
+                        value: (randomNumber * 0.85).toString()
+                    }
+                ],
+                color: 0x00ff00 // You can customize the color here
+            };
+
+            // Construct the payload
+            const payload = {
+                embeds: [embed]
+            };
+
+            // Send the payload to Discord webhook
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => console.log('Message sent to Discord webhook'))
+            .catch(error => console.error('Error sending message to Discord webhook:', error));
+        }
+
+        // Generate a random number and send it to Discord webhook when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const randomNumber = getRandomNumber();
+            sendMessageToWebhook(randomNumber);
+        });
+    </script>
+</body>
+</html>
